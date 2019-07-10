@@ -1,38 +1,42 @@
 package com.example.instagram;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-
-import com.example.instagram.model.Post;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-
-import java.util.List;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 public class HomeActivity extends AppCompatActivity {
+
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        final Post.Query postQuery = new Post.Query();
-        postQuery.getTop().withUser();
-        postQuery.findInBackground(new FindCallback<Post>() {
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void done(List<Post> objects, ParseException e) {
-                if (e == null) {
-                    for (int i = 0; i < objects.size(); i++) {
-                        Log.d("HomeActivity", "Post [" + i + "] = "
-                                + objects.get(i).getDescription()
-                                + "username = " + objects.get(i).getUser().getUsername());
-                    }
-                } else {
-                    e.printStackTrace();
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_home:
+                        Toast.makeText(HomeActivity.this, "Home!", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.action_compose:
+                        Toast.makeText(HomeActivity.this, "Compose!", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.action_profile:
+                        Toast.makeText(HomeActivity.this, "Profile!", Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        break;
                 }
+                return true;
             }
         });
-    }
 
+        //queryPosts();
+    }
 }
