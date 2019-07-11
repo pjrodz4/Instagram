@@ -3,9 +3,13 @@ package com.example.instagram;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.Toast;
+
+import com.example.instagram.fragments.ComposeFragment;
+import com.example.instagram.fragments.PostsFragment;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -15,28 +19,35 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        final FragmentManager fragmentManager = getSupportFragmentManager();
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment fragment;
                 switch (item.getItemId()) {
                     case R.id.action_home:
-                        Toast.makeText(HomeActivity.this, "Home!", Toast.LENGTH_SHORT).show();
+                        fragment = new PostsFragment();
+//                        Toast.makeText(HomeActivity.this, "Home!", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.action_compose:
-                        Toast.makeText(HomeActivity.this, "Compose!", Toast.LENGTH_SHORT).show();
+                        fragment = new ComposeFragment();
+//                        Toast.makeText(HomeActivity.this, "Compose!", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.action_profile:
-                        Toast.makeText(HomeActivity.this, "Profile!", Toast.LENGTH_SHORT).show();
+                        fragment = new ComposeFragment();
+//                        Toast.makeText(HomeActivity.this, "Profile!", Toast.LENGTH_SHORT).show();
                         break;
                     default:
+                        fragment = new ComposeFragment();
                         break;
                 }
+                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
                 return true;
             }
         });
-
-        //queryPosts();
+        // Set default selection
+        bottomNavigationView.setSelectedItemId(R.id.action_home );
     }
 }

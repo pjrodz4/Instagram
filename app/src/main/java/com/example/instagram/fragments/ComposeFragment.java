@@ -22,14 +22,12 @@ import android.widget.Toast;
 
 import com.example.instagram.R;
 import com.example.instagram.model.Post;
-import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.File;
-import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -162,23 +160,4 @@ public class ComposeFragment extends Fragment {
         });
     }
 
-    private void queryPosts() {
-        final Post.Query postQuery = new Post.Query();
-        postQuery.getTop().withUser();
-        postQuery.findInBackground(new FindCallback<Post>() {
-            @Override
-            public void done(List<Post> objects, ParseException e) {
-                if (e == null) {
-                    for (int i = 0; i < objects.size(); i++) {
-                        Log.d(TAG, "Post [" + i + "] = "
-                                + objects.get(i).getDescription()
-                                + "username = " + objects.get(i).getUser().getUsername());
-                    }
-                } else {
-                    Log.e(TAG, "Error with query");
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
 }
