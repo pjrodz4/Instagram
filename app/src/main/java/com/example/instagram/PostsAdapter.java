@@ -1,6 +1,7 @@
 package com.example.instagram;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.instagram.model.Post;
 import com.parse.ParseFile;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -49,13 +52,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         notifyDataSetChanged();
     }
 
-    // Add a list of items -- change to type used
-    public void addAll(List<Post> list) {
-        posts.addAll(list);
-        notifyDataSetChanged();
-    }
-
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private TextView tvHandle;
         private ImageView ivImage;
         private TextView tvDescription;
@@ -65,6 +62,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             tvHandle = itemView.findViewById(R.id.tvHandle);
             ivImage = itemView.findViewById(R.id.ivImage);
             tvDescription = itemView.findViewById(R.id.tvDescription);
+            itemView.setOnClickListener(this);
         }
 
         public void bind(Post post) {
@@ -74,6 +72,21 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                 Glide.with(context).load(image.getUrl()).into(ivImage);
             }
             tvDescription.setText(post.getDescription());
+        }
+
+        @Override
+        public void onClick(View v) {
+            // gets item position
+            int position = getAdapterPosition();
+            // make sure the position is valid, i.e. actually exists in the view
+            if (position != RecyclerView.NO_POSITION) {
+                // get the movie at the position
+                Post post = posts.get(position);
+                // create intent for new activity
+                Intent intent = new Intent(context, DetailsActivity.class);
+                intent.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
+                context.startActivity(intent);
+            }
         }
     }
 
