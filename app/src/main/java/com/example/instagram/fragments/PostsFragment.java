@@ -25,10 +25,11 @@ public class PostsFragment extends Fragment {
 
     public static final String TAG = "PostsFragment";
 
-    private RecyclerView rvPosts;
+    public RecyclerView rvPosts;
     protected PostsAdapter adapter;
     protected List<Post> mPosts;
     private SwipeRefreshLayout swipeContainer;
+    public int whichFragment;
 
     // OnCreateView to inflate view
     @Nullable
@@ -42,12 +43,8 @@ public class PostsFragment extends Fragment {
         rvPosts = view.findViewById(R.id.rvPosts);
         // create the data source
         mPosts = new ArrayList<>();
-        // create the adapter
-        adapter = new PostsAdapter(getContext(), mPosts);
-        // set the adapter on the recycler view
-        rvPosts.setAdapter(adapter);
         // set the layout manager on the recycler view
-        rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
+        setRecyclerView();
         // Lookup the swipe container view
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
@@ -67,6 +64,20 @@ public class PostsFragment extends Fragment {
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
+        queryPosts();
+    }
+
+    protected void setRecyclerView() {
+        whichFragment = 0;
+        // create the adapter
+        adapter = new PostsAdapter(getContext(), mPosts, whichFragment);
+        // set the adapter on the recycler view
+        rvPosts.setAdapter(adapter);
+        rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+    public void loadNextDataFromApi(int offset) {
+        //maxId = mPosts.get(mPosts.size() - 1);
         queryPosts();
     }
 

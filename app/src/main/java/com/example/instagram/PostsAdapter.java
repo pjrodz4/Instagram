@@ -3,7 +3,9 @@ package com.example.instagram;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +24,12 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
 
     private Context context;
     private List<Post> posts;
+    public int whichFragment;
 
-    public PostsAdapter(Context context, List<Post> posts) {
+    public PostsAdapter(Context context, List<Post> posts, int whichFragment) {
         this.context = context;
         this.posts = posts;
+        this.whichFragment = whichFragment;
     }
 
     @NonNull
@@ -66,12 +70,22 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         }
 
         public void bind(Post post) {
-            tvHandle.setText(post.getUser().getUsername());
             ParseFile image = post.getImage();
+            if (whichFragment == 0) {
+                tvHandle.setText(post.getUser().getUsername());
+                tvDescription.setText(post.getDescription());
+            } else if (whichFragment == 1) {
+                tvHandle.setVisibility(View.GONE);
+                tvDescription.setVisibility(View.GONE);
+                DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+                int pxWidth = displayMetrics.widthPixels;
+                ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(pxWidth, pxWidth/3);
+                ivImage.setLayoutParams(layoutParams);
+            }
             if (image != null) {
                 Glide.with(context).load(image.getUrl()).into(ivImage);
             }
-            tvDescription.setText(post.getDescription());
+
         }
 
         @Override
