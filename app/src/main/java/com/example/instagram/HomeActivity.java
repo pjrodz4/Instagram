@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import com.example.instagram.fragments.ComposeFragment;
 import com.example.instagram.fragments.PostsFragment;
+import com.example.instagram.fragments.ProfileFragment;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -36,11 +37,9 @@ public class HomeActivity extends AppCompatActivity {
 //                        Toast.makeText(HomeActivity.this, "Compose!", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.action_profile:
-                        fragment = new ComposeFragment();
-//                        Toast.makeText(HomeActivity.this, "Profile!", Toast.LENGTH_SHORT).show();
-                        break;
                     default:
-                        fragment = new ComposeFragment();
+                        fragment = new ProfileFragment();
+//                        Toast.makeText(HomeActivity.this, "Profile!", Toast.LENGTH_SHORT).show();
                         break;
                 }
                 fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
@@ -48,6 +47,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
         // Set default selection
-        bottomNavigationView.setSelectedItemId(R.id.action_home );
+        bottomNavigationView.setSelectedItemId(R.id.action_home);
     }
 }
