@@ -49,4 +49,5 @@ public class HomeActivity extends AppCompatActivity {
         // Set default selection
         bottomNavigationView.setSelectedItemId(R.id.action_home);
     }
+
 }
