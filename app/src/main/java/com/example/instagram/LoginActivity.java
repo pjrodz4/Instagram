@@ -1,7 +1,9 @@
 package com.example.instagram;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +17,7 @@ import com.parse.SignUpCallback;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private AnimationDrawable animationDrawable;
     private EditText usernameInput;
     private EditText passwordInput;
     private Button loginBtn;
@@ -27,6 +30,14 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // onCreate
+        ConstraintLayout login = findViewById(R.id.clLogin);
+        animationDrawable = (AnimationDrawable) login.getBackground();
+        animationDrawable.setEnterFadeDuration(5000);
+        animationDrawable.setExitFadeDuration(2000);
+        // onResume
+        animationDrawable.start();
 
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser != null) goToHomeActivity();

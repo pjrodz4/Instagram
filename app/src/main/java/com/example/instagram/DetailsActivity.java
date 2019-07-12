@@ -17,6 +17,7 @@ public class DetailsActivity extends AppCompatActivity {
     private TextView tvHandle;
     private TextView tvDescription;
     private ImageView ivImage;
+    private TextView tvCreatedAt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +27,13 @@ public class DetailsActivity extends AppCompatActivity {
         tvHandle = findViewById(R.id.tvHandle);
         tvDescription = findViewById(R.id.tvDescription);
         ivImage = findViewById(R.id.ivImage);
+        tvCreatedAt = findViewById(R.id.tvCreatedAt);
 
         post = Parcels.unwrap(getIntent().getParcelableExtra(Post.class.getSimpleName()));
-
         tvHandle.setText(post.getUser().getUsername());
         tvDescription.setText(post.getDescription());
+        tvCreatedAt.setText(post.getCreatedAt().toString());
+
         ParseFile image = post.getImage();
         Glide.with(this).load(image.getUrl()).into(ivImage);
     }
