@@ -9,6 +9,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -60,12 +61,35 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         private TextView tvHandle;
         private ImageView ivImage;
         private TextView tvDescription;
+        private ImageButton btnLike;
+        private ImageButton btnComment;
+        private ImageButton btnSend;
+        private ImageButton btnSave;
 
         public ViewHolder(View itemView) {
             super(itemView);
             tvHandle = itemView.findViewById(R.id.tvHandle);
             ivImage = itemView.findViewById(R.id.ivImage);
             tvDescription = itemView.findViewById(R.id.tvDescription);
+            btnLike = itemView.findViewById(R.id.btnLike);
+            btnComment = itemView.findViewById(R.id.btnComment);
+            btnSend = itemView.findViewById(R.id.btnSend);
+            btnSave = itemView.findViewById(R.id.btnSave);
+
+            btnLike.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    btnLike.setImageResource(R.drawable.ufi_heart_active);
+                }
+            });
+
+            btnSave.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    btnSave.setImageResource(R.drawable.ufi_save_active);
+                }
+            });
+
             itemView.setOnClickListener(this);
         }
 
@@ -77,6 +101,10 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             } else if (whichFragment == 1) {
                 tvHandle.setVisibility(View.GONE);
                 tvDescription.setVisibility(View.GONE);
+                btnSave.setVisibility(View.GONE);
+                btnComment.setVisibility(View.GONE);
+                btnLike.setVisibility(View.GONE);
+                btnSend.setVisibility(View.GONE);
                 DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
                 int pxWidth = displayMetrics.widthPixels;
                 ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(pxWidth, pxWidth/3);
